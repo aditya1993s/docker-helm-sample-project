@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "aditya-chart.fullname" . }}-test-connection"
+  labels:
+    {{- include "aditya-chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "aditya-chart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
